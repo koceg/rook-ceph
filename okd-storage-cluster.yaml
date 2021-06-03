@@ -23,9 +23,8 @@ spec:
     enabled: true
     ssl: true
   monitoring:
-    enabled: false
-# use with multiple Rook Ceph clusters
-#    rulesNamespace: rook-ceph
+    enabled: true
+    rulesNamespace: ceph
   crashCollector:
     disable: false
   cleanupPolicy:
