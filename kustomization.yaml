@@ -1,0 +1,39 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+resources:
+- https://raw.githubusercontent.com/rook/rook/v1.6.3/cluster/examples/kubernetes/ceph/crds.yaml
+- https://raw.githubusercontent.com/rook/rook/v1.6.3/cluster/examples/kubernetes/ceph/common.yaml
+- https://raw.githubusercontent.com/rook/rook/v1.6.3/cluster/examples/kubernetes/ceph/operator-openshift.yaml
+- okd-storage-cluster.yaml
+- blockpool.yaml
+- block-storageclass.yaml
+- filesystem.yaml
+- filesystem-storageclass.yaml
+
+namespace: ceph
+
+patchesJson6902:
+- target:
+    version: v1
+    kind: SecurityContextConstraints
+    name: rook-ceph
+  patch: |-
+    - op: replace
+      path: /users
+      value:
+      - system:serviceaccount:ceph:rook-ceph-system
+      - system:serviceaccount:ceph:default
+      - system:serviceaccount:ceph:rook-ceph-mgr
+      - system:serviceaccount:ceph:rook-ceph-osd
+- target:
+    version: v1
+    kind: SecurityContextConstraints
+    name: rook-ceph-csi
+  patch: |-
+    - op: replace
+      path: /users
+      value:
+      - system:serviceaccount:ceph:rook-csi-rbd-plugin-sa
+      - system:serviceaccount:ceph:rook-csi-rbd-provisioner-sa
+      - system:serviceaccount:ceph:rook-csi-cephfs-plugin-sa
+      - system:serviceaccount:ceph:rook-csi-cephfs-provisioner-sa

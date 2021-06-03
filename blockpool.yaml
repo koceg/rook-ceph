@@ -1,0 +1,11 @@
+apiVersion: ceph.rook.io/v1
+kind: CephBlockPool
+metadata:
+  name: okd-blk
+  annotations:
+    argocd.argoproj.io/sync-wave: "2"
+spec:
+  enableRBDStats: true
+  failureDomain: osd
+  replicated:
+    size: 2
