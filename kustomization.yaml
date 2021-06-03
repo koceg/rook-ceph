@@ -37,3 +37,11 @@ patchesJson6902:
       - system:serviceaccount:ceph:rook-csi-rbd-provisioner-sa
       - system:serviceaccount:ceph:rook-csi-cephfs-plugin-sa
       - system:serviceaccount:ceph:rook-csi-cephfs-provisioner-sa
+- target:
+    version: v1
+    kind: CephCluster
+    name: okd
+  patch: |-
+    - op: replace
+      path: /spec/cephVersion/image
+      value: docker.io/ceph/ceph:v16.2.4
