@@ -4,6 +4,7 @@ resources:
 - https://raw.githubusercontent.com/rook/rook/v1.6.3/cluster/examples/kubernetes/ceph/crds.yaml
 - https://raw.githubusercontent.com/rook/rook/v1.6.3/cluster/examples/kubernetes/ceph/common.yaml
 - https://raw.githubusercontent.com/rook/rook/v1.6.3/cluster/examples/kubernetes/ceph/operator-openshift.yaml
+- https://raw.githubusercontent.com/rook/rook/v1.6.3/cluster/examples/kubernetes/ceph/monitoring/rbac.yaml
 - okd-storage-cluster.yaml
 - blockpool.yaml
 - block-storageclass.yaml
@@ -45,3 +46,11 @@ patchesJson6902:
     - op: replace
       path: /spec/cephVersion/image
       value: docker.io/ceph/ceph:v16.2.4
+- target:
+    version: v1
+    kind: RoleBinding
+    name: rook-ceph-metrics
+  patch: |-
+    - op: replace
+      path: /subjects/0/namespace
+      value: ceph
